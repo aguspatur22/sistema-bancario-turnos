@@ -1,0 +1,14 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Sucursales</h1>
+
+<div id="sucursales">
+  <% @sucursales.each do |sucursal| %>
+    <%= render sucursal %>
+    <p>
+      <%= link_to "Show this sucursal", sucursal %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New sucursal", new_sucursal_path %>

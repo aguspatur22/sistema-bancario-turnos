@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  motivo: MyString
+  fecha: 2022-11-24 21:06:22
+  estado: MyString
+  resultado: MyString
+
+two:
+  motivo: MyString
+  fecha: 2022-11-24 21:06:22
+  estado: MyString
+  resultado: MyString

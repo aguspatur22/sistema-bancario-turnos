@@ -1,0 +1,59 @@
+<%= form_with(model: usuario) do |form| %>
+  <% if usuario.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(usuario.errors.count, "error") %> prohibited this usuario from being saved:</h2>
+
+      <ul>
+        <% usuario.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :email, style: "display: block" %>
+    <%= form.text_field :email %>
+  </div>
+
+  <div>
+    <%= form.label :password, style: "display: block" %>
+    <%= form.password_field :password %>
+  </div>
+
+  <div>
+    <%= form.label :password_confirmation, style: "display: block" %>
+    <%= form.password_field :password_confirmation %>
+  </div>
+
+  <div>
+    <%= form.label :rol, style: "display: block" %>
+    <%= form.select(:rol, options_for_select([['Personal Bancario',1],['Administrador',2]], 2)) %>
+  </div>
+
+  <div>
+    <%= form.label :sucursal, style: "display: block" %>
+    <%= form.select(:sucursal, options_from_collection_for_select(Sucursal.where(usuario_id: nil), :nombre, :nombre)) %>
+  </div>
+
+  
+  <br>
+  
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+  <script>
+    function onChange() {
+      var selected = $('#rol option:selected').value()
+      console.log(selected)
+      if (selected == 1) {
+        $('#sucursal').show()
+      }
+      if (selected == 2) {
+        $('#sucursal').prop('disabled', true);
+      }
+    }
+  </script>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>
