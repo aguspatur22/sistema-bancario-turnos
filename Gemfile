@@ -67,3 +67,4 @@ end
 
 gem "devise"
 gem "rolify"
+gem "cancancan"

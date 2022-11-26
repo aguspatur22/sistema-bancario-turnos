@@ -1,6 +1,6 @@
 class SucursalesController < ApplicationController
   before_action :set_sucursal, only: %i[ show edit update destroy ]
-  before_action :authenticate_usuario! #Y solo admin!!!
+  load_and_authorize_resource
 
   # GET /sucursales or /sucursales.json
   def index
@@ -13,7 +13,8 @@ class SucursalesController < ApplicationController
 
   # GET turnos de esta sucursal
   def show_turnos
-    @turnos = @sucursal.turnos
+    puts "Turnos: "
+    puts @sucursal.turnos
   end
 
   # GET /sucursales/new

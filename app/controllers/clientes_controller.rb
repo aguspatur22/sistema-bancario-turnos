@@ -1,6 +1,6 @@
 class ClientesController < ApplicationController
   before_action :set_cliente, only: %i[ show edit update destroy ]
-  before_action :authenticate_usuario! #Y solo admin!!!
+  load_and_authorize_resource
 
   # GET /clientes or /clientes.json
   def index
@@ -10,6 +10,13 @@ class ClientesController < ApplicationController
   # GET /clientes/1 or /clientes/1.json
   def show
   end
+
+
+  # GET turnos del usuario
+  def mis_turnos
+    puts "HOLAaaaaaaaaaaaaaa"
+  end
+
 
   # GET /clientes/new
   def new

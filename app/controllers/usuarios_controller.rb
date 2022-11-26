@@ -1,14 +1,7 @@
 class UsuariosController < ApplicationController
   before_action :set_usuario, only: %i[ show edit update destroy ]
-  before_action :authenticate_usuario! #Y solo admin!!!
-  before_action :check_rol #Y solo admin!!!
+  load_and_authorize_resource
 
-  # checks rol only admin
-  def check_rol
-    unless current_usuario.has_role? :admin
-      redirect_to root_path
-    end
-  end
 
   # GET /usuarios or /usuarios.json
   def index
@@ -28,12 +21,16 @@ class UsuariosController < ApplicationController
   def edit
   end
 
+
+  # GET turnos del usuario
+  def perfil
+    puts current_usuario.email
+  end
+
+
   # POST /usuarios or /usuarios.json
   def create
     data = usuario_params()
-    puts "==================================="
-    puts data
-    puts "==================================="
     @usuario = Usuario.new()
     @usuario.email = data[:email]
     @usuario.password = data[:password]
