@@ -36,23 +36,6 @@
     <%= form.select(:sucursal, options_from_collection_for_select(Sucursal.where(usuario_id: nil), :nombre, :nombre)) %>
   </div>
 
-  
-  <br>
-  
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-  <script>
-    function onChange() {
-      var selected = $('#rol option:selected').value()
-      console.log(selected)
-      if (selected == 1) {
-        $('#sucursal').show()
-      }
-      if (selected == 2) {
-        $('#sucursal').prop('disabled', true);
-      }
-    }
-  </script>
-
   <div>
     <%= form.submit %>
   </div>

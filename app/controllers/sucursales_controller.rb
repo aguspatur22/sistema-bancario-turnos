@@ -11,6 +11,11 @@ class SucursalesController < ApplicationController
   def show
   end
 
+  # GET turnos de esta sucursal
+  def show_turnos
+    @turnos = @sucursal.turnos
+  end
+
   # GET /sucursales/new
   def new
     @sucursal = Sucursal.new
@@ -20,9 +25,36 @@ class SucursalesController < ApplicationController
   def edit
   end
 
+  def create_dia(id,ini,fin)
+    d = Dia.new()
+    puts ini.class
+    d.dia = id
+    d.inicio = ini
+    d.fin = fin
+    d
+  end
+
   # POST /sucursales or /sucursales.json
   def create
-    @sucursal = Sucursal.new(sucursal_params)
+    data = sucursal_params()
+
+    @sucursal = Sucursal.new()
+
+    #primero creo los dias
+    lunes = create_dia(1,data[:ini1],data[:fin1])
+    martes = create_dia(2,data[:ini2],data[:fin2])
+    miercoles = create_dia(3,data[:ini3],data[:fin3])
+    jueves = create_dia(4,data[:ini4],data[:fin4])
+    viernes = create_dia(5,data[:ini5],data[:fin5])
+    @sucursal.dias << lunes
+    @sucursal.dias << martes
+    @sucursal.dias << miercoles
+    @sucursal.dias << jueves
+    @sucursal.dias << viernes
+
+    @sucursal.nombre = data[:nombre]
+    @sucursal.direccion = data[:direccion]
+    @sucursal.telefono = data[:telefono]
 
     respond_to do |format|
       if @sucursal.save
@@ -66,6 +98,11 @@ class SucursalesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def sucursal_params
-      params.require(:sucursal).permit(:nombre, :direccion, :telefono)
+      params.require(:sucursal).permit(:nombre, :direccion, :telefono, 
+      :ini1, :fin1,
+      :ini2, :fin2,
+      :ini3, :fin3,
+      :ini4, :fin4,
+      :ini5, :fin5)
     end
 end

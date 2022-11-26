@@ -1,6 +1,30 @@
 <p style="color: green"><%= notice %></p>
 
-<%= render @sucursal %>
+<div>
+  <p>
+    <strong>Nombre:</strong>
+    <%= @sucursal.nombre %>
+  </p>
+
+  <p>
+    <strong>Direccion:</strong>
+    <%= @sucursal.direccion %>
+  </p>
+
+  <p>
+    <strong>Telefono:</strong>
+    <%= @sucursal.telefono %>
+  </p>
+
+  <% @sucursal.dias.each do |dia| %>
+    <strong><%= dia.dia %></strong>
+    <p>
+      <%=dia.inicio %>
+      <%=dia.fin %>
+    </p>
+  <% end %>
+
+</div>
 
 <div>
   <%= link_to "Edit this sucursal", edit_sucursal_path(@sucursal) %> |

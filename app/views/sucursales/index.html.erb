@@ -12,3 +12,7 @@
 </div>
 
 <%= link_to "New sucursal", new_sucursal_path %>
+
+<% if usuario_signed_in? %>
+  <%= button_to "logout", destroy_usuario_session_path, method: :delete  %>
+<% end %>

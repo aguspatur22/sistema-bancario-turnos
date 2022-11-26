@@ -1,6 +1,14 @@
 class UsuariosController < ApplicationController
   before_action :set_usuario, only: %i[ show edit update destroy ]
   before_action :authenticate_usuario! #Y solo admin!!!
+  before_action :check_rol #Y solo admin!!!
+
+  # checks rol only admin
+  def check_rol
+    unless current_usuario.has_role? :admin
+      redirect_to root_path
+    end
+  end
 
   # GET /usuarios or /usuarios.json
   def index
@@ -14,11 +22,6 @@ class UsuariosController < ApplicationController
   # GET /usuarios/new
   def new
     @usuario = Usuario.new
-    @dia1 = Dia.new
-    @dia2 = Dia.new
-    @dia3 = Dia.new
-    @dia4 = Dia.new
-    @dia5 = Dia.new
   end
 
   # GET /usuarios/1/edit
@@ -27,16 +30,22 @@ class UsuariosController < ApplicationController
 
   # POST /usuarios or /usuarios.json
   def create
-    @usuario = Usuario.new(usuario_params)
-    puts (params)
-    if (params[:rol] == 1)
+    data = usuario_params()
+    puts "==================================="
+    puts data
+    puts "==================================="
+    @usuario = Usuario.new()
+    @usuario.email = data[:email]
+    @usuario.password = data[:password]
+    @usuario.password_confirmation = data[:password_confirmation]
+    if (data[:rol] == '1')
       @usuario.add_role :personal
-      suc = Sucursal.find_by(:nombre, params[:sucursal])
+      suc = Sucursal.find_by(nombre: data[:sucursal])
       @usuario.sucursal = suc
     else
       @usuario.add_role :admin
     end
-
+    @usuario.save!
     respond_to do |format|
       if @usuario.save
         format.html { redirect_to usuario_url(@usuario), notice: "Usuario creado exitosamente." }
@@ -79,6 +88,6 @@ class UsuariosController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def usuario_params
-      params.require(:usuario).permit(:email, :password, :password_confirmation, :rol)
+      params.require(:usuario).permit(:email, :password, :password_confirmation, :rol, :sucursal)
     end
 end
