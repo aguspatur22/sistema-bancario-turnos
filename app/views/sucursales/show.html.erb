@@ -27,8 +27,12 @@
 </div>
 
 <div>
-  <%= link_to "Edit this sucursal", edit_sucursal_path(@sucursal) %> |
+  <% if can? :update, Cliente %>
+    <%= link_to "Edit this sucursal", edit_sucursal_path(@sucursal) %>
+  <% end %>
   <%= link_to "Back to sucursales", sucursales_path %>
 
-  <%= button_to "Destroy this sucursal", @sucursal, method: :delete %>
+  <% if can? :destroy, Cliente %>
+    <%= button_to "Destroy this sucursal", @sucursal, method: :delete %>
+  <% end %>
 </div>

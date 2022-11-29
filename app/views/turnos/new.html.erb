@@ -1,7 +1,37 @@
 <h1>New turno</h1>
 
-<%= render "form", turno: @turno %>
+<%= form_with(model: @turno) do |form| %>
+  <% if @turno.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(@turno.errors.count, "error") %> prohibited this turno from being saved:</h2>
 
+      <ul>
+        <% @turno.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :motivo, style: "display: block" %>
+    <%= form.text_field :motivo %>
+  </div>
+
+  <div>
+    <%= form.label :fecha, style: "display: block" %>
+    <%= form.datetime_field :fecha %>
+  </div>
+
+  <div>
+    <%= form.label :sucursal_id, 'Sucursal', style: "display: block" %>
+    <%= form.select(:sucursal_id, options_from_collection_for_select(Sucursal.all, :id, :nombre)) %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>
 <br>
 
 <div>

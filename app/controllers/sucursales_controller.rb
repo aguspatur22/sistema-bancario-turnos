@@ -1,6 +1,7 @@
 class SucursalesController < ApplicationController
   before_action :set_sucursal, only: %i[ show edit update destroy ]
-  load_and_authorize_resource
+  before_action :authenticate_usuario!
+  load_and_authorize_resource :except => [:create, :update]
 
   # GET /sucursales or /sucursales.json
   def index
@@ -8,13 +9,7 @@ class SucursalesController < ApplicationController
   end
 
   # GET /sucursales/1 or /sucursales/1.json
-  def show
-  end
-
-  # GET turnos de esta sucursal
-  def show_turnos
-    puts "Turnos: "
-    puts @sucursal.turnos
+  def show 
   end
 
   # GET /sucursales/new
@@ -28,10 +23,9 @@ class SucursalesController < ApplicationController
 
   def create_dia(id,ini,fin)
     d = Dia.new()
-    puts ini.class
     d.dia = id
-    d.inicio = ini
-    d.fin = fin
+    d.inicio = ini.to_i
+    d.fin = fin.to_i
     d
   end
 
@@ -68,10 +62,27 @@ class SucursalesController < ApplicationController
     end
   end
 
+
+  def update_dia(dia,ini,fin)
+    dia.inicio = ini.to_i
+    dia.fin = fin.to_i
+    dia.save!
+  end
+
+
   # PATCH/PUT /sucursales/1 or /sucursales/1.json
   def update
+    data = sucursal_params()
+
+    #primero creo los dias
+    update_dia(@sucursal.dias[0],data[:ini1],data[:fin1])
+    update_dia(@sucursal.dias[1],data[:ini2],data[:fin2])
+    update_dia(@sucursal.dias[2],data[:ini3],data[:fin3])
+    update_dia(@sucursal.dias[3],data[:ini4],data[:fin4])
+    update_dia(@sucursal.dias[4],data[:ini5],data[:fin5])
+
     respond_to do |format|
-      if @sucursal.update(sucursal_params)
+      if @sucursal.update(nombre: data[:nombre], direccion: data[:direccion], telefono: data[:telefono])
         format.html { redirect_to sucursal_url(@sucursal), notice: "Sucursal was successfully updated." }
         format.json { render :show, status: :ok, location: @sucursal }
       else
@@ -83,11 +94,16 @@ class SucursalesController < ApplicationController
 
   # DELETE /sucursales/1 or /sucursales/1.json
   def destroy
-    @sucursal.destroy
 
-    respond_to do |format|
-      format.html { redirect_to sucursales_url, notice: "Sucursal was successfully destroyed." }
-      format.json { head :no_content }
+    if Turno.where(sucursal_id: @sucursal.id, estado: "pendiente").empty?
+      @sucursal.destroy
+      respond_to do |format|
+        format.html { redirect_to sucursales_url, notice: "Sucursal was successfully destroyed." }
+      end
+    else
+      respond_to do |format|
+        format.html { redirect_to sucursal_url(@sucursal), alert: "No se pudo eliminar la sucursal debido a que posee turnos pendientes" }
+      end
     end
   end
 

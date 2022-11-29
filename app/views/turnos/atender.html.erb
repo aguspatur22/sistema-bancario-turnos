@@ -1,0 +1,31 @@
+<h1>Atendiendo turno</h1>
+
+<%= form_with model: @turno, :url => {:action => "atender", :id => @turno.id}, method: :patch do |form| %>
+  <% if @turno.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(@turno.errors.count, "error") %> prohibited this turno from being saved:</h2>
+
+      <ul>
+        <% @turno.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :resultado, style: "display: block" %>
+    <%= form.text_field :resultado %>
+  </div>
+
+<br>
+  <div>
+    <%= form.submit "Atender"%>
+  </div>
+<% end %>
+
+<br>
+
+<div>
+  <%= link_to "Back to turnos", turnos_path %>
+</div>

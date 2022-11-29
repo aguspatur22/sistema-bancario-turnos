@@ -1,10 +1,18 @@
 <p style="color: green"><%= notice %></p>
+<p style="color: red"><%= alert %></p>
 
 <%= render @turno %>
 
 <div>
-  <%= link_to "Edit this turno", edit_turno_path(@turno) %> |
+  <% if current_cliente and can? :update, Turno and @turno.estado == 'pendiente'%>
+    <%= link_to "Editar turno", edit_turno_path(@turno) %> |
+  <% end %>
   <%= link_to "Back to turnos", turnos_path %>
+  <% if current_cliente and can? :destroy, Turno and @turno.estado == 'pendiente'%>
+    <%= button_to "Cancelar turno", @turno, method: :delete %>
+  <% end %>
 
-  <%= button_to "Destroy this turno", @turno, method: :delete %>
+  <%  if current_usuario and can? :atender, Turno %>
+    <%= button_to "Atender turno", { action: "atender_turno", id: @turno.id }, method: :get %>
+  <% end %>
 </div>

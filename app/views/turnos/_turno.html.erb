@@ -1,4 +1,10 @@
 <div id="<%= dom_id turno %>">
+
+  <p>
+    <strong>Sucursal:</strong>
+    <%= turno.sucursal.nombre %>
+  </p>
+
   <p>
     <strong>Motivo:</strong>
     <%= turno.motivo %>
@@ -14,9 +20,11 @@
     <%= turno.estado %>
   </p>
 
-  <p>
-    <strong>Resultado:</strong>
-    <%= turno.resultado %>
-  </p>
+  <% if turno.estado != "pendiente" %>
+    <p>
+      <strong>Resultado:</strong>
+      <%= turno.resultado %>
+    </p>
+  <% end %>
 
 </div>

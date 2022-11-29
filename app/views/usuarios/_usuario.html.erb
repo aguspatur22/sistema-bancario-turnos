@@ -9,4 +9,11 @@
     <%= usuario.roles[0].name %>
   </p>
 
+  <% if usuario.has_role? :personal %>
+    <p>
+      <strong>Sucursal:</strong>
+      <%= usuario.sucursal.nombre %>
+    </p>
+  <% end %>
+
 </div>

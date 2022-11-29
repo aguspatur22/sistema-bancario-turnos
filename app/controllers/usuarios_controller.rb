@@ -1,6 +1,7 @@
 class UsuariosController < ApplicationController
   before_action :set_usuario, only: %i[ show edit update destroy ]
-  load_and_authorize_resource
+  before_action :authenticate_usuario! 
+  load_and_authorize_resource :except => [:create, :update]
 
 
   # GET /usuarios or /usuarios.json
@@ -19,12 +20,6 @@ class UsuariosController < ApplicationController
 
   # GET /usuarios/1/edit
   def edit
-  end
-
-
-  # GET turnos del usuario
-  def perfil
-    puts current_usuario.email
   end
 
 

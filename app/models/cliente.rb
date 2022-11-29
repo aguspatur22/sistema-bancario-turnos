@@ -9,7 +9,7 @@ class Cliente < ApplicationRecord
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
-  devise :database_authenticatable, :registerable, :validatable
+  devise :database_authenticatable, :registerable, :validatable, :recoverable
 
   # Relaciones
   has_many :turnos, dependent: :destroy

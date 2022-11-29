@@ -5,10 +5,23 @@
 <div id="turnos">
   <% @turnos.each do |turno| %>
     <%= render turno %>
-    <p>
-      <%= link_to "Show this turno", turno %>
-    </p>
+    <% if current_cliente %>
+      <p>
+        <%= link_to "Mostrar detalles del turno", turno %>
+      </p>
+    <% else %>
+      <p>
+        <%= link_to "Mostrar detalles del turno", "/admin/turnos/#{turno.id}" %>
+      </p>
+    <% end %>
+    <br>
   <% end %>
-</div>
+  </div>
 
-<%= link_to "New turno", new_turno_path %>
+<% if @turnos.empty? and current_usuario %>
+    <p>Actualmente la sucursal <%=current_usuario.sucursal.nombre%> no posee turnos pendientes</p>
+<% end %>
+
+<% if current_cliente %>
+  <%= link_to "Solicitar turno", new_turno_path %>
+<% end %>

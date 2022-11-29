@@ -3,7 +3,7 @@
 class Ability
   include CanCan::Ability
 
-  def initialize(usuario)
+  def initialize(usuario,cliente)
     # Define abilities for the user here. For example:
     #
     #   return unless user.present?
@@ -35,9 +35,24 @@ class Ability
       can :manage, Usuario
       can :manage, Cliente
       can :manage, Sucursal
-    else
+
+    elsif usuario.has_role? :personal
       can :read, Sucursal
       can :read, Cliente
+
+      can :index_personal, Turno, estado: 'pendiente'
+      can :atender_turno, Turno, sucursal_id: usuario.sucursal.id, estado: 'pendiente'
+      can :atender, Turno, sucursal_id: usuario.sucursal.id, estado: 'pendiente'
+      can :read, Turno, sucursal_id: usuario.sucursal.id, estado: 'pendiente'
+
+    else
+      #esto puedo hacerlo para los dos modelos???
+      cliente ||= Cliente.new
+      can :index_cliente, Turno
+      can :create, Turno
+      can :read, Turno, cliente_id: cliente.id
+      can :update, Turno, cliente_id: cliente.id, estado: 'pendiente'
+      can :destroy, Turno, cliente_id: cliente.id, estado: 'pendiente'
     end
 
     #permisos para ver perfil y cambiar contrasena???
