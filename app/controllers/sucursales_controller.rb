@@ -32,34 +32,34 @@ class SucursalesController < ApplicationController
   # POST /sucursales or /sucursales.json
   def create
     data = sucursal_params()
+    puts params
+    # @sucursal = Sucursal.new()
 
-    @sucursal = Sucursal.new()
+    # #primero creo los dias
+    # lunes = create_dia(1,data[:ini1],data[:fin1])
+    # martes = create_dia(2,data[:ini2],data[:fin2])
+    # miercoles = create_dia(3,data[:ini3],data[:fin3])
+    # jueves = create_dia(4,data[:ini4],data[:fin4])
+    # viernes = create_dia(5,data[:ini5],data[:fin5])
+    # @sucursal.dias << lunes
+    # @sucursal.dias << martes
+    # @sucursal.dias << miercoles
+    # @sucursal.dias << jueves
+    # @sucursal.dias << viernes
 
-    #primero creo los dias
-    lunes = create_dia(1,data[:ini1],data[:fin1])
-    martes = create_dia(2,data[:ini2],data[:fin2])
-    miercoles = create_dia(3,data[:ini3],data[:fin3])
-    jueves = create_dia(4,data[:ini4],data[:fin4])
-    viernes = create_dia(5,data[:ini5],data[:fin5])
-    @sucursal.dias << lunes
-    @sucursal.dias << martes
-    @sucursal.dias << miercoles
-    @sucursal.dias << jueves
-    @sucursal.dias << viernes
+    # @sucursal.nombre = data[:nombre]
+    # @sucursal.direccion = data[:direccion]
+    # @sucursal.telefono = data[:telefono]
 
-    @sucursal.nombre = data[:nombre]
-    @sucursal.direccion = data[:direccion]
-    @sucursal.telefono = data[:telefono]
-
-    respond_to do |format|
-      if @sucursal.save
-        format.html { redirect_to sucursal_url(@sucursal), notice: "Sucursal was successfully created." }
-        format.json { render :show, status: :created, location: @sucursal }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @sucursal.errors, status: :unprocessable_entity }
-      end
-    end
+    # respond_to do |format|
+    #   if @sucursal.save
+    #     format.html { redirect_to sucursal_url(@sucursal), notice: "Sucursal was successfully created." }
+    #     format.json { render :show, status: :created, location: @sucursal }
+    #   else
+    #     format.html { render :new, status: :unprocessable_entity }
+    #     format.json { render json: @sucursal.errors, status: :unprocessable_entity }
+    #   end
+    # end
   end
 
 

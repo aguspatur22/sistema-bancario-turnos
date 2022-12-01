@@ -5,7 +5,6 @@ Rails.application.routes.draw do
     get '/turnos', to: 'turnos#index_cliente'
     resources :turnos, :except => :index
     get '/perfil', to: 'perfil#perfil_cliente'
-    get '/password', to: 'perfil#password'
   end
   
   scope "/admin" do
@@ -21,6 +20,8 @@ Rails.application.routes.draw do
 
     get '/perfil', to: 'perfil#perfil_usuario'
     get '/password', to: 'perfil#password'
+    put '/password', to: 'perfil#change_password'
+    patch '/password', to: 'perfil#change_password'
   end
 
   # Defines the root path route ("/")

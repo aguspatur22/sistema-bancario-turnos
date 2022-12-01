@@ -24,33 +24,26 @@ class PerfilController < ApplicationController
         if current_usuario
             @usuario = current_usuario
         else
-            @usuario = current_cliente
+            redirect_to new_usuario_session_path
         end
     end
 
 
     # POST
     def change_password
-        puts "==================="
-        puts params
-        puts "==================="
         if usuario_signed_in?
-            if current_usuario.update_with_password(params[:password])
-                flash[:notice] = "Updated Password Successfully"
+            if current_usuario.update_with_password(usuario_params)
+                sign_in(current_usuario, :bypass => true)
+                respond_to do |format|
+                    format.html { redirect_to "/admin/perfil", notice: "Se actualizo la contraseña correctamente" }
+                end
             else
-                flash[:error] = "There was an error updating your password, please try again."
+                respond_to do |format|
+                    format.html { redirect_to "/admin/password", alert: "Hubo un error en el cambio de contraseña. Intente nuevamente" }
+                end
             end
         else
             redirect_to new_usuario_session_path
-        end
-        if cliente_signed_in?
-            if current_cliente.update_with_password(params[:password])
-                flash[:notice] = "Updated Password Successfully"
-            else
-                flash[:error] = "There was an error updating your password, please try again."
-            end
-        else
-            redirect_to new_cliente_session_path #??
         end
     end
 
@@ -59,7 +52,7 @@ class PerfilController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def usuario_params
-        params.require(:usuario).permit(:password, :password_confirmation)
+        params.require(:usuario).permit(:password, :password_confirmation, :current_password)
     end
 
     def cliente_params

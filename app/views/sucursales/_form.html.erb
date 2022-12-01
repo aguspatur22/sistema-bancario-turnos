@@ -27,67 +27,22 @@
   </div>
 
   <br>
-  <div>
-    <%= form.label 'Lunes', style: "display: block" %>
-    <div>
-      <%= form.label :ini1, 'Inicio:', style: "float: left" %>
-      <%= form.select(:ini1, (7..18).to_a.map {|x| [x,x.to_i]}) %>
-    </div>
-    <div>
-      <%= form.label :fin1, 'Fin:', style: "float: left" %>
-      <%= form.select(:fin1, (7..18).to_a.map {|x| [x,x.to_i]}) %>
-    </div>
-  </div>
-  <br>
-  <div>
-    <%= form.label 'Martes', style: "display: block" %>
-    <div>
-      <%= form.label :ini2, 'Inicio:', style: "float: left" %>
-      <%= form.select(:ini2, (7..18).to_a.map {|x| [x,x.to_i]}) %>
-    </div>
-    <div>
-      <%= form.label :fin2, 'Fin:', style: "float: left" %>
-      <%= form.select(:fin2, (7..18).to_a.map {|x| [x,x.to_i]})%>
-    </div>
-  </div>
-  <br>
-  <div>
-    <%= form.label 'Miercoles', style: "display: block" %>
-    <div>
-      <%= form.label :ini3, 'Inicio:', style: "float: left" %>
-      <%= form.select(:ini3, (7..18).to_a.map {|x| [x,x.to_i]}) %>>
-    </div>
-    <div>
-      <%= form.label :fin3, 'Fin:', style: "float: left" %>
-      <%= form.select(:fin3, (7..18).to_a.map {|x| [x,x.to_i]}) %>
-    </div>
-  </div>
-  <br>
-  <div>
-    <%= form.label 'Jueves', style: "display: block" %>
-    <div>
-      <%= form.label :ini4, 'Inicio:', style: "float: left" %>
-      <%= form.select(:ini4, (7..18).to_a.map {|x| [x,x.to_i]}) %>
-    </div>
-    <div>
-      <%= form.label :fin4, 'Fin:', style: "float: left" %>
-      <%= form.select(:fin4, (7..18).to_a.map {|x| [x,x.to_i]}) %>
-    </div>
-  </div>
-  <br>
-  <div>
-    <%= form.label 'Viernes', style: "display: block" %>
-    <div>
-      <%= form.label :ini5, 'Inicio:', style: "float: left" %>
-      <%= form.select(:ini5, (7..18).to_a.map {|x| [x,x.to_i]}) %>
-    </div>
-    <div>
-      <%= form.label :fin5, 'Fin:', style: "float: left" %>
-      <%= form.select(:fin5, (7..18).to_a.map {|x| [x,x.to_i]}) %>
-    </div>
-  </div>
-  
-  
+
+  <h4>Horarios: </h4>
+  <% ["Lunes","Martes","Miercoles","Jueves","Viernes","Sabado","Domingo"].each_with_index do |x,y| %>
+    <%= form.fields_for y.to_s do |fd| %>
+    <%= x %>
+      <div>
+        <%= fd.label :ini, 'Inicio: ', style: "float: left" %>
+        <%= fd.select(:ini, (7..18).to_a.map {|x| [x,x.to_i]}) %>
+      </div>
+      <div>
+        <%= fd.label :fin, 'Fin: ', style: "float: left" %>
+        <%= fd.select(:fin, (7..18).to_a.map {|x| [x,x.to_i]}) %>
+      </div>
+    <% end %>
+  <% end %>
+
   <br>
   
   <div>
