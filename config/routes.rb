@@ -5,9 +5,11 @@ Rails.application.routes.draw do
     get '/turnos', to: 'turnos#index_cliente'
     resources :turnos, :except => :index
     get '/perfil', to: 'perfil#perfil_cliente'
+
   end
   
   scope "/admin" do
+    get '/', to: 'main#homeAdmin'
     devise_for :usuarios, path: 'auth', path_names: { sign_in: 'login'}
     resources :sucursales, :usuarios, :clientes
 

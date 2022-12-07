@@ -1,10 +1,8 @@
-<h1>Bienvenido a TTPS-Ruby</h1>
+<h1>Portal de clientes</h1>
 
 <p>Sistema de turnos bancarios</p>
 
-<% if usuario_signed_in? %> 
-  <%= button_to "logout user", destroy_usuario_session_path, method: :delete  %>
-<% elsif cliente_signed_in? %> 
+<% if cliente_signed_in? %> 
   <%= button_to "logout client", destroy_cliente_session_path, method: :delete  %>
 <% else %>
   <%= button_to "login", new_cliente_session_path, method: :get  %>

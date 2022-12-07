@@ -1,0 +1,9 @@
+<h1>Portal de usuarios</h1>
+
+<p>Sistema de turnos bancarios</p>
+
+<% if usuario_signed_in? %> 
+  <%= button_to "logout user", destroy_usuario_session_path, method: :delete  %>
+<% else %>
+  <%= button_to "login", new_usuario_session_path, method: :get  %>
+<% end %>
