@@ -32,41 +32,34 @@ class SucursalesController < ApplicationController
   # POST /sucursales or /sucursales.json
   def create
     data = sucursal_params()
-    puts params
-    # @sucursal = Sucursal.new()
 
-    # #primero creo los dias
-    # lunes = create_dia(1,data[:ini1],data[:fin1])
-    # martes = create_dia(2,data[:ini2],data[:fin2])
-    # miercoles = create_dia(3,data[:ini3],data[:fin3])
-    # jueves = create_dia(4,data[:ini4],data[:fin4])
-    # viernes = create_dia(5,data[:ini5],data[:fin5])
-    # @sucursal.dias << lunes
-    # @sucursal.dias << martes
-    # @sucursal.dias << miercoles
-    # @sucursal.dias << jueves
-    # @sucursal.dias << viernes
+    @sucursal = Sucursal.new()
 
-    # @sucursal.nombre = data[:nombre]
-    # @sucursal.direccion = data[:direccion]
-    # @sucursal.telefono = data[:telefono]
+    #primero creo los dias
+    dias = ["Lunes","Martes","Miercoles","Jueves","Viernes","Sabado","Domingo"]
+    dias.each_with_index do |x,y|
+      @sucursal.dias << create_dia(y+1,data[x.to_sym][:ini],data[x.to_sym][:fin])
+    end
 
-    # respond_to do |format|
-    #   if @sucursal.save
-    #     format.html { redirect_to sucursal_url(@sucursal), notice: "Sucursal was successfully created." }
-    #     format.json { render :show, status: :created, location: @sucursal }
-    #   else
-    #     format.html { render :new, status: :unprocessable_entity }
-    #     format.json { render json: @sucursal.errors, status: :unprocessable_entity }
-    #   end
-    # end
+    @sucursal.nombre = data[:nombre]
+    @sucursal.direccion = data[:direccion]
+    @sucursal.telefono = data[:telefono]
+
+    respond_to do |format|
+      if @sucursal.save
+        format.html { redirect_to sucursal_url(@sucursal), notice: "Sucursal was successfully created." }
+        format.json { render :show, status: :created, location: @sucursal }
+      else
+        format.html { render :new, status: :unprocessable_entity }
+        format.json { render json: @sucursal.errors, status: :unprocessable_entity }
+      end
+    end
   end
 
 
-  def update_dia(dia,ini,fin)
-    dia.inicio = ini.to_i
-    dia.fin = fin.to_i
-    dia.save!
+  def update_dia(num,ini,fin)
+    d = @sucursal.dias.find_by(dia: num)
+    d.update(inicio: ini.to_i, fin: fin.to_i)
   end
 
 
@@ -74,12 +67,12 @@ class SucursalesController < ApplicationController
   def update
     data = sucursal_params()
 
-    #primero creo los dias
-    update_dia(@sucursal.dias[0],data[:ini1],data[:fin1])
-    update_dia(@sucursal.dias[1],data[:ini2],data[:fin2])
-    update_dia(@sucursal.dias[2],data[:ini3],data[:fin3])
-    update_dia(@sucursal.dias[3],data[:ini4],data[:fin4])
-    update_dia(@sucursal.dias[4],data[:ini5],data[:fin5])
+    #primero updateo los dias
+    dias = ["Lunes","Martes","Miercoles","Jueves","Viernes","Sabado","Domingo"]
+
+    dias.each_with_index do |x,y|
+      update_dia(y+1,data[x.to_sym][:ini],data[x.to_sym][:fin])
+    end
 
     respond_to do |format|
       if @sucursal.update(nombre: data[:nombre], direccion: data[:direccion], telefono: data[:telefono])
@@ -116,10 +109,6 @@ class SucursalesController < ApplicationController
     # Only allow a list of trusted parameters through.
     def sucursal_params
       params.require(:sucursal).permit(:nombre, :direccion, :telefono, 
-      :ini1, :fin1,
-      :ini2, :fin2,
-      :ini3, :fin3,
-      :ini4, :fin4,
-      :ini5, :fin5)
+      :Lunes =>{}, :Martes =>{}, :Miercoles =>{}, :Jueves =>{}, :Viernes =>{}, :Sabado =>{}, :Domingo =>{})
     end
 end

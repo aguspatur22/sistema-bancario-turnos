@@ -30,8 +30,11 @@
 
   <h4>Horarios: </h4>
   <% ["Lunes","Martes","Miercoles","Jueves","Viernes","Sabado","Domingo"].each_with_index do |x,y| %>
-    <%= form.fields_for y.to_s do |fd| %>
+    <%= form.fields_for (x).to_s do |fd| %>
     <%= x %>
+      <div>
+        <%= hidden_field_tag y  %>
+      </div>
       <div>
         <%= fd.label :ini, 'Inicio: ', style: "float: left" %>
         <%= fd.select(:ini, (7..18).to_a.map {|x| [x,x.to_i]}) %>

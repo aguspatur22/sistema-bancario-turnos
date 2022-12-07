@@ -64,6 +64,9 @@ class UsuariosController < ApplicationController
 
   # DELETE /usuarios/1 or /usuarios/1.json
   def destroy
+    if @usuario.sucursal
+      @usuario.sucursal.update(usuario_id: nil)
+    end
     @usuario.destroy
 
     respond_to do |format|

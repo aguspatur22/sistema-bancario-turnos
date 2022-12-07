@@ -49,6 +49,7 @@ class Ability
       #esto puedo hacerlo para los dos modelos???
       cliente ||= Cliente.new
       can :index_cliente, Turno
+      can :get_horarios, Turno
       can :create, Turno
       can :read, Turno, cliente_id: cliente.id
       can :update, Turno, cliente_id: cliente.id, estado: 'pendiente'

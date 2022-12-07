@@ -1,7 +1,59 @@
 <h1>Editing sucursal</h1>
 
-<%= render "form", sucursal: @sucursal %>
+<%= form_with(model: @sucursal) do |form| %>
+  <% if @sucursal.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(@sucursal.errors.count, "error") %> prohibited this sucursal from being saved:</h2>
 
+      <ul>
+        <% @sucursal.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :nombre, style: "display: block" %>
+    <%= form.text_field :nombre %>
+  </div>
+
+  <div>
+    <%= form.label :direccion, style: "display: block" %>
+    <%= form.text_field :direccion %>
+  </div>
+
+  <div>
+    <%= form.label :telefono, style: "display: block" %>
+    <%= form.number_field :telefono %>
+  </div>
+
+  <br>
+
+  <h4>Horarios: </h4>
+  <% ["Lunes","Martes","Miercoles","Jueves","Viernes","Sabado","Domingo"].each_with_index do |x,y| %>
+    <%= form.fields_for (x).to_s do |fd| %>
+    <%= x %>
+      <div>
+        <%= hidden_field_tag y  %>
+      </div>
+      <div>
+        <%= fd.label :ini, 'Inicio: ', style: "float: left" %>
+        <%= fd.select(:ini, (7..18).to_a.map {|x| [x,x.to_i]}, {:selected => @sucursal.dias.find_by(dia: y+1).inicio}) %>
+      </div>
+      <div>
+        <%= fd.label :fin, 'Fin: ', style: "float: left" %>
+        <%= fd.select(:fin, (7..18).to_a.map {|x| [x,x.to_i]}, {:selected => @sucursal.dias.find_by(dia: y+1).fin}) %>
+      </div>
+    <% end %>
+  <% end %>
+
+  <br>
+  
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>
 <br>
 
 <div>

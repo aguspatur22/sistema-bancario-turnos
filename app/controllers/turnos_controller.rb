@@ -32,18 +32,29 @@ class TurnosController < ApplicationController
     @turno = Turno.new
   end
 
+  # POST /turnos/get_horas
+  def get_horarios
+    @sucursal = Sucursal.find_by(id: params[:idS]).dias
+    render json: @sucursal
+  end
+
   # GET /turnos/1/edit
   def edit
   end
 
   # POST /turnos or /turnos.json    
   def create
+
     data = turno_params()             #chequeo de fecha
+
+    anio,mes,dia = data[:dia].split("-")
+    fecha = DateTime.new(anio,mes,dia,data[:hora].to_i,data[:minutos].to_i)
+
     @turno = Turno.new()
     @turno.estado = "pendiente"
     @turno.motivo = data[:motivo]
-    @turno.fecha = data[:fecha]
-    @turno.sucursal_id = Sucursal.find_by(id: data[:sucursal_id]).id
+    @turno.fecha = fecha
+    @turno.sucursal_id = Sucursal.find_by(id: data[:sucursal]).id
     @turno.cliente_id = current_cliente.id
 
     respond_to do |format|
@@ -62,7 +73,7 @@ class TurnosController < ApplicationController
     data = turno_params()         #chequeo de fecha
 
     respond_to do |format|
-      if @turno.update(motivo: data[:motivo], sucursal_id: data[:sucursal_id], fecha: data[:fecha])
+      if @turno.update(motivo: data[:motivo], sucursal_id: data[:sucursal], fecha: data[:fecha])
         format.html { redirect_to turno_url(@turno), notice: "Turno was successfully updated." }
         format.json { render :show, status: :ok, location: @turno }
       else
@@ -78,8 +89,8 @@ class TurnosController < ApplicationController
     render 'atender'
   end
 
-   # PATCH/PUT /turnos/1 or /turnos/1.json
-   def atender 
+  # PATCH/PUT /turnos/1 or /turnos/1.json
+  def atender 
     data = turno_params()
 
     respond_to do |format|
@@ -118,6 +129,6 @@ class TurnosController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def turno_params
-      params.require(:turno).permit(:motivo, :fecha, :resultado, :sucursal_id)
+      params.require(:turno).permit(:dia, :hora, :minutos, :motivo, :resultado, :sucursal)
     end
 end
