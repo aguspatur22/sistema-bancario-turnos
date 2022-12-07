@@ -5,7 +5,6 @@ Rails.application.routes.draw do
     get '/turnos', to: 'turnos#index_cliente'
     resources :turnos, :except => :index
     get '/perfil', to: 'perfil#perfil_cliente'
-
   end
   
   scope "/admin" do
