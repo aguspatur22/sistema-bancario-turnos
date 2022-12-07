@@ -3,7 +3,6 @@ Rails.application.routes.draw do
   scope "/portal" do
     devise_for :clientes, path: 'auth', path_names: { sign_in: 'login'}
     get '/turnos', to: 'turnos#index_cliente'
-    get '/turnos/:idS/get_horarios', to: 'turnos#get_horarios'
     resources :turnos, :except => :index
     get '/perfil', to: 'perfil#perfil_cliente'
   end
@@ -27,4 +26,7 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   root "main#home"
+
+  get '/api/:idS/horarios', to: 'turnos#get_horarios'
+
 end

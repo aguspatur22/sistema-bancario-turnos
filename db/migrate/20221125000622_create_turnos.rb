@@ -6,7 +6,6 @@ class CreateTurnos < ActiveRecord::Migration[7.0]
       t.string :estado
       t.string :resultado
       
-      # Referencia al personal ??
       t.belongs_to :usuario, index: true
 
       t.belongs_to :cliente , index: true

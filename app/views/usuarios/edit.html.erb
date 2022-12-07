@@ -4,9 +4,8 @@
   <% if @usuario.errors.any? %>
     <div style="color: red">
       <h2><%= pluralize(@usuario.errors.count, "error") %> prohibited this usuario from being saved:</h2>
-
       <ul>
-        <% usuario.errors.each do |error| %>
+        <% @usuario.errors.each do |error| %>
           <li><%= error.full_message %></li>
         <% end %>
       </ul>
@@ -19,23 +18,13 @@
   </div>
 
   <div>
-    <%= form.label :password, style: "display: block" %>
-    <%= form.password_field :password %>
-  </div>
-
-  <div>
-    <%= form.label :password_confirmation, style: "display: block" %>
-    <%= form.password_field :password_confirmation %>
-  </div>
-
-  <div>
     <%= form.label :rol, style: "display: block" %>
     <%= form.select(:rol, options_for_select([['Personal Bancario',1],['Administrador',2]], @usuario.roles.first.name == 'admin' ? 2 : 1), {}, {:onChange=>"cambiarVista();"}) %>
   </div>
 
   <div id="sucursal">
     <%= form.label :sucursal, style: "display: block" %>
-    <%= form.select(:sucursal, options_from_collection_for_select(Sucursal.where(usuario_id: nil), :nombre, :nombre)) %>
+    <%= form.select(:sucursal, options_from_collection_for_select(Sucursal.where(usuario_id: [nil,@usuario.id]), :nombre, :nombre)) %>
   </div>
 
   <br>

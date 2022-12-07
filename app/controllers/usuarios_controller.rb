@@ -51,8 +51,39 @@ class UsuariosController < ApplicationController
 
   # PATCH/PUT /usuarios/1 or /usuarios/1.json
   def update
+
+    data = usuario_params()
+
+    if (data[:rol] == '1')
+      if (!@usuario.has_role? :personal) #personal y antes era admin
+        if Sucursal.where(usuario_id: nil).empty? #quiero ser personal pero no hay sucursales
+          respond_to do |format|
+            format.html { redirect_to usuarios_url, alert: "No hay sucursales disponibles para asignar" }
+          end
+          return
+        end 
+        
+        @usuario.remove_role :admin
+        @usuario.add_role :personal
+        @usuario.sucursal = Sucursal.find_by(nombre: data[:sucursal])
+
+      elsif (@usuario.sucursal.nombre != data[:sucursal]) #personal y antes era personal
+        @usuario.sucursal = nil
+        @usuario.sucursal = Sucursal.find_by(nombre: data[:sucursal])
+      end
+
+    else
+      @usuario.remove_role :personal
+      @usuario.add_role :admin
+      @usuario.sucursal = nil
+    end
+
     respond_to do |format|
-      if @usuario.update(usuario_params)
+      if @usuario.update_attribute(:email, data[:email])
+        if (current_usuario.id == @usuario.id) #para el caso q modifique mi usuario, necesito volver a loguearme
+          sign_out current_usuario
+          redirect_to destroy_usuario_session_path and return
+        end
         format.html { redirect_to usuario_url(@usuario), notice: "Usuario was successfully updated." }
         format.json { render :show, status: :ok, location: @usuario }
       else

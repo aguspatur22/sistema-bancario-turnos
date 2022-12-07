@@ -1,7 +1,10 @@
 class Turno < ApplicationRecord
+    attr_accessor :dia, :hora, :minutos
+
     # Relaciones
     belongs_to :cliente
     belongs_to :sucursal
 
-    validates :dia, :hora, :motivo, :cliente, :sucursal, :estado, presence: true
+    validates :motivo, :cliente, :sucursal, :estado, presence: true
+
 end

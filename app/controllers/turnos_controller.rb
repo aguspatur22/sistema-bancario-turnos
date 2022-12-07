@@ -45,20 +45,23 @@ class TurnosController < ApplicationController
   # POST /turnos or /turnos.json    
   def create
 
-    data = turno_params()             #chequeo de fecha
+    data = turno_params()
 
-    anio,mes,dia = data[:dia].split("-")
+    anio,mes,dia = data[:dia].split("-").map {|x| x.to_i}
+    
     fecha = DateTime.new(anio,mes,dia,data[:hora].to_i,data[:minutos].to_i)
 
     @turno = Turno.new()
     @turno.estado = "pendiente"
     @turno.motivo = data[:motivo]
     @turno.fecha = fecha
-    @turno.sucursal_id = Sucursal.find_by(id: data[:sucursal]).id
+    @turno.sucursal_id = Sucursal.find_by(id: data[:sucursal_id].to_i).id
     @turno.cliente_id = current_cliente.id
 
-    respond_to do |format|
-      if @turno.save
+    respond_to do |format|     #chequeo de segunda condicion para el caso q ya tiene un turno en esa suc ese dia
+      if current_cliente.turnos.where(sucursal_id: data[:sucursal_id].to_i).any? {|x| x.fecha.strftime("%Y-%m-%d") == data[:dia]}
+        format.html { redirect_to turnos_url, alert: "Usted ya posee un turno ese dia en esa sucursal" }
+      elsif @turno.save
         format.html { redirect_to turno_url(@turno), notice: "Turno creado exitosamente" }
         format.json { render :show, status: :created, location: @turno }
       else
@@ -73,7 +76,7 @@ class TurnosController < ApplicationController
     data = turno_params()         #chequeo de fecha
 
     respond_to do |format|
-      if @turno.update(motivo: data[:motivo], sucursal_id: data[:sucursal], fecha: data[:fecha])
+      if @turno.update(motivo: data[:motivo], sucursal_id: data[:sucursal_id], fecha: data[:fecha])
         format.html { redirect_to turno_url(@turno), notice: "Turno was successfully updated." }
         format.json { render :show, status: :ok, location: @turno }
       else
@@ -129,6 +132,6 @@ class TurnosController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def turno_params
-      params.require(:turno).permit(:dia, :hora, :minutos, :motivo, :resultado, :sucursal)
+      params.require(:turno).permit(:dia, :hora, :minutos, :motivo, :resultado, :sucursal_id)
     end
 end

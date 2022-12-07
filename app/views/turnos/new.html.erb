@@ -19,8 +19,8 @@
   </div>
 
   <div>
-    <%= form.label :sucursal, 'Sucursal', style: "display: block" %>
-    <%= form.select(:sucursal, options_from_collection_for_select(Sucursal.all, :id, :nombre), {}, {:onChange=>'fetchHoras();'}) %>
+    <%= form.label :sucursal_id, 'Sucursal', style: "display: block" %>
+    <%= form.select(:sucursal_id, options_from_collection_for_select(Sucursal.all, :id, :nombre), {}, {:onChange=>'fetchHoras();'}) %>
   </div>
 
   <div>
@@ -52,9 +52,9 @@
   var hs = "<%= Sucursal.all.to_a %>"
   
   function fetchHoras() {
-    var idSuc = document.getElementById("turno_sucursal").value
+    var idSuc = document.getElementById("turno_sucursal_id").value
     var numDia = new Date(element.value).getDay()
-    fetch(`http://127.0.0.1:3000/portal/turnos/${idSuc}/get_horarios`)
+    fetch(`http://127.0.0.1:3000/api/${idSuc}/horarios`)
       .then(response => response.json())
       .then(result => {
         var str = ""
