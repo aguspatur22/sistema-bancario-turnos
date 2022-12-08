@@ -1,54 +1,52 @@
-<h1>New usuario</h1>
+<h1>Nuevo usuario</h1>
 
 <%= form_with(model: @usuario) do |form| %>
   <% if @usuario.errors.any? %>
     <div style="color: red">
       <h2><%= pluralize(@usuario.errors.count, "error") %> prohibited this usuario from being saved:</h2>
-
       <ul>
         <% @usuario.errors.each do |error| %>
-          <li><%= error.full_message %></li>
+          <div class="alert alert-danger">
+            <li><%= error.full_message %></li>
+          </div>
         <% end %>
       </ul>
     </div>
   <% end %>
 
-  <div>
+  <form>
+  <div class="form-group">
     <%= form.label :email, style: "display: block" %>
     <%= form.text_field :email %>
   </div>
-
-  <div>
+  <br>
+  <div class="form-group">
     <%= form.label :password, style: "display: block" %>
     <%= form.password_field :password %>
   </div>
-
-  <div>
+  <br>
+  <div class="form-group">
     <%= form.label :password_confirmation, style: "display: block" %>
     <%= form.password_field :password_confirmation %>
   </div>
-
-  <div>
-    <%= form.label :rol, style: "display: block" %>
-    <%= form.select(:rol, options_for_select([['Personal Bancario',1],['Administrador',2]], 2), {}, {:onChange=>"cambiarVista();"}) %>
-  </div>
-
-  <div id="sucursal">
-    <%= form.label :sucursal, style: "display: block" %>
-    <%= form.select(:sucursal, options_from_collection_for_select(Sucursal.where(usuario_id: nil), :nombre, :nombre)) %>
-  </div>
-
   <br>
-
-  <div>
-    <%= form.submit %>
+  <div class="form-group w-25">
+    <%= form.label :rol, style: "display: block" %>
+    <%= form.select(:rol, options_for_select([['Personal Bancario',1],['Administrador',2]], 2), {}, {:onChange=>"cambiarVista();", :class => 'form-control' }) %>
   </div>
+  <br>
+  <div class="form-group w-25" id="sucursal" >
+    <%= form.label :sucursal, style: "display: block" %>
+    <%= form.select(:sucursal, options_from_collection_for_select(Sucursal.where(usuario_id: nil), :nombre, :nombre),{}, {:class => 'form-control' }) %>
+  </div>
+  <br>
+  <div>
+    <%= form.submit 'Crear usuario'%>
+  </div>
+  </form>
+
 <% end %>
 <br>
-
-<div>
-  <%= link_to "Back to usuarios", usuarios_path %>
-</div>
 
 <script>
 cambiarVista()

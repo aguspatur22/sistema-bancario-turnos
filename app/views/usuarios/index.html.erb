@@ -2,14 +2,23 @@
 
 <h1>Usuarios</h1>
 
-<div id="usuarios">
-  <% @usuarios.each do |usuario| %>
-    <%= render usuario %>
-    <p>
-      <%= link_to "Show this usuario", usuario %>
-    </p>
-    <br>
-  <% end %>
-</div>
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Email</th>
+      <th scope="col">Rol</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @usuarios.each_with_index do |usuario, index| %>
+      <tr onclick="window.location = '/admin/usuarios/'+<%=usuario.id%>">
+        <th scope="row"><%= index + 1 %></th>
+        <td><%=usuario.email%></td>
+        <td><%=usuario.roles[0].name%></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
 
-<%= link_to "New usuario", new_usuario_path %>
+<%= button_to "Agregar usuario", new_usuario_path, method: :get, class: "btn btn-outline-primary" %>

@@ -1,9 +1,15 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
   <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
     <title>Sistema de turnos Bancarios</title>
     <%= favicon_link_tag '/bank.ico' %>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
@@ -12,9 +18,97 @@
   </head>
 
   <body>
-    <p class="notice"><%= notice %></p>
-    <p class="alert"><%= alert %></p>
 
-    <%= yield %>
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+    <nav class="navbar navbar-expand-xl navbar-dark bg-dark">
+      <div class="container-fluid">
+        <a class="navbar-brand">Sistema bancario de turnos</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarDark" aria-controls="navbarDark" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse show" id="navbarDark">
+          <ul class="navbar-nav me-auto mb-2 mb-xl-0">
+            <% if cliente_signed_in? %>
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/portal/turnos">Turnos</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/portal/auth/edit">Mi cuenta</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/portal/perfil">Perfil</a>
+              </li>
+            <% end %>
+
+            <% if usuario_signed_in? %>
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/admin">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/admin/sucursales">Sucursales</a>
+              </li>
+
+              <% if current_usuario.has_role? :admin %>
+                <li class="nav-item">
+                  <a class="nav-link" href="/admin/usuarios">Usuarios</a>
+                </li>
+              <% else %>
+                <li class="nav-item">
+                  <a class="nav-link" href="/admin/turnos">Turnos</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/admin/clientes">Clientes</a>
+                </li>
+              <% end %>
+
+              <li class="nav-item">
+                <a class="nav-link" href="/admin/password">Editar password</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/admin/perfil">Perfil</a>
+              </li>
+            <% end %>
+          </ul>
+
+          <ul class="navbar-nav ml-auto">
+            <% if usuario_signed_in? %>
+              <% if current_usuario.has_role? :admin %>
+                <li class="nav-item"><a class="nav-link">Administrador</a></li>
+              <% else %>
+                <li class="nav-item"><a class="nav-link">Personal</a></li>
+              <% end %>
+              <li><%= button_to "Cerrar sesion", destroy_usuario_session_path, method: :delete, class: "btn btn-outline-danger"  %></li>
+            <% end %>
+            <% if cliente_signed_in? %>
+              <li class="nav-item"><a class="nav-link">Cliente</a></li>
+              <li class="nav-item"><%= button_to "Cerrar sesion", destroy_cliente_session_path, method: :delete, class: "nav-link btn btn-outline-danger" %></li>
+            <% end %>
+          </ul>
+
+        </div>
+      </div>
+    </nav>
+    
+    <div class="p-2">
+        <%= yield %>
+        <p class="notice"><%= notice %></p>
+        <p class="alert"><%= alert %></p>
+    </div>
+
+  <footer class="text-center fixed-bottom">
+    <!-- Copyright -->
+    <div class="text-center p-3 text-white bg-dark">
+      © 2022 Copyright:
+      <a class="text-white" href="https://github.com/aguspatur22/sistema-bancario-turnos">Agustin Paturlanne</a>
+    </div>
+    <!-- Copyright -->
+  </footer>
+
   </body>
+
 </html>
