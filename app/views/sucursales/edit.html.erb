@@ -39,11 +39,11 @@
       </div>
       <div>
         <%= fd.label :ini, 'Inicio: ', style: "float: left" %>
-        <%= fd.select(:ini, (7..18).to_a.map {|x| [x,x.to_i]}, {:selected => @sucursal.dias.find_by(dia: y+1).inicio}) %>
+        <%= fd.select(:ini, (7..18).to_a.map {|x| [x,x.to_i]}, {:selected => @sucursal.dias.find_by(dia: y+1).inicio}, {:onChange=>"finHora('"+x+"')"}) %>
       </div>
       <div>
         <%= fd.label :fin, 'Fin: ', style: "float: left" %>
-        <%= fd.select(:fin, (7..18).to_a.map {|x| [x,x.to_i]}, {:selected => @sucursal.dias.find_by(dia: y+1).fin}) %>
+        <%= fd.select(:fin, (7..18).to_a.map {|x| [x,x.to_i]}, {:selected => @sucursal.dias.find_by(dia: y+1).fin}, {:onChange=>"finHora('"+x+"')"}) %>
       </div>
     <% end %>
   <% end %>
@@ -60,3 +60,23 @@
   <%= link_to "Show this sucursal", @sucursal %> |
   <%= link_to "Back to sucursales", sucursales_path %>
 </div>
+
+
+<script>
+
+function finHora(dia){
+  var ini = document.getElementById("sucursal_"+dia+"_ini");
+  var fin = document.getElementById("sucursal_"+dia+"_fin");
+
+  if ( parseInt(ini.value) >= parseInt(fin.value)) {
+    if (ini.value != ini.options[ini.options.length - 1].value) {
+      fin.value = String(parseInt(ini.value) + 1)
+    }
+    else {
+      ini.value = String(parseInt(ini.value) - 1)
+      fin.value = fin.options[fin.options.length - 1].value
+    }
+  }
+}
+
+</script>

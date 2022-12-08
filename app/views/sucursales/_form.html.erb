@@ -37,11 +37,11 @@
       </div>
       <div>
         <%= fd.label :ini, 'Inicio: ', style: "float: left" %>
-        <%= fd.select(:ini, (7..18).to_a.map {|x| [x,x.to_i]}) %>
+        <%= fd.select(:ini, (7..18).to_a.map {|x| [x,x.to_i]}, {}, {:onChange=>"finHora('"+x+"')"}) %>
       </div>
       <div>
         <%= fd.label :fin, 'Fin: ', style: "float: left" %>
-        <%= fd.select(:fin, (7..18).to_a.map {|x| [x,x.to_i]}) %>
+        <%= fd.select(:fin, (7..18).to_a.map {|x| [x,x.to_i]}, {:selected => "18"}, {:onChange=>"finHora('"+x+"')"}) %>
       </div>
     <% end %>
   <% end %>

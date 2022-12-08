@@ -7,3 +7,22 @@
 <div>
   <%= link_to "Back to sucursales", sucursales_path %>
 </div>
+
+<script>
+
+function finHora(dia){
+  var ini = document.getElementById("sucursal_"+dia+"_ini");
+  var fin = document.getElementById("sucursal_"+dia+"_fin");
+
+  if ( parseInt(ini.value) >= parseInt(fin.value)) {
+    if (ini.value != ini.options[ini.options.length - 1].value) {
+      fin.value = String(parseInt(ini.value) + 1)
+    }
+    else {
+      ini.value = String(parseInt(ini.value) - 1)
+      fin.value = fin.options[fin.options.length - 1].value
+    }
+  }
+}
+
+</script>
