@@ -1,4 +1,4 @@
-<h1>Atendiendo turno</h1>
+<h1>Atender turno</h1>
 
 <%= form_with model: @turno, :url => {:action => "atender", :id => @turno.id}, method: :patch do |form| %>
   <% if @turno.errors.any? %>
@@ -12,20 +12,18 @@
       </ul>
     </div>
   <% end %>
-
-  <div>
+  
+  <form>
+  <div class="form-group">
     <%= form.label :resultado, style: "display: block" %>
     <%= form.text_field :resultado %>
   </div>
 
-<br>
+  <br>
   <div>
-    <%= form.submit "Atender"%>
+    <%= form.submit "Atender", class:"btn btn-warning"%>
   </div>
+  </form>
 <% end %>
 
 <br>
-
-<div>
-  <%= link_to "Back to turnos", turnos_path %>
-</div>

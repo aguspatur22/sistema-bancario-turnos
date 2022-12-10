@@ -76,7 +76,7 @@ class TurnosController < ApplicationController
     data = turno_params()         #chequeo de fecha
 
     respond_to do |format|
-      if @turno.update(motivo: data[:motivo], sucursal_id: data[:sucursal_id], fecha: data[:fecha])
+      if @turno.update_attribute(:motivo, data[:motivo])
         format.html { redirect_to turno_url(@turno), notice: "Turno actualizado correctamente" }
         format.json { render :show, status: :ok, location: @turno }
       else
@@ -97,7 +97,10 @@ class TurnosController < ApplicationController
     data = turno_params()
 
     respond_to do |format|
-      if @turno.update(resultado: data[:resultado], usuario_id: current_usuario.id, estado: "atendido")
+      if data[:resultado].empty?
+        format.html { redirect_to "/admin/turnos/#{@turno.id}/edit", alert: "Debe completar el campo resultado" }
+        
+      elsif @turno.update(resultado: data[:resultado], usuario_id: current_usuario.id, estado: "atendido")
         format.html { redirect_to '/admin/turnos', notice: "Turno atendido exitosamente" }
         format.json { render :show, status: :ok, location: @turno }
       else
@@ -105,7 +108,6 @@ class TurnosController < ApplicationController
         format.json { render json: @turno.errors, status: :unprocessable_entity }
       end
     end
-
   end
 
   # DELETE /turnos/1 or /turnos/1.json

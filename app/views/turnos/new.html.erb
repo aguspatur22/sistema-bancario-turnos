@@ -1,4 +1,4 @@
-<h1>New turno</h1>
+<h1>Nuevo turno</h1>
 
 <%= form_with(model: @turno) do |form| %>
   <% if @turno.errors.any? %>
@@ -13,36 +13,36 @@
     </div>
   <% end %>
 
-  <div>
+  <form>
+  <div class="form-group">
     <%= form.label :motivo, style: "display: block" %>
     <%= form.text_field :motivo %>
   </div>
-
-  <div>
+  <br>
+  <div class="form-group">
     <%= form.label :sucursal_id, 'Sucursal', style: "display: block" %>
     <%= form.select(:sucursal_id, options_from_collection_for_select(Sucursal.all, :id, :nombre), {}, {:onChange=>'fetchHoras();'}) %>
   </div>
 
-  <div>
+  <br>
+  <div class="form-group">
     <%= form.label :dia, 'Dia: ', style: "display: block" %>
     <%= form.date_field :dia, min: Date.tomorrow, :value => Date.tomorrow.strftime('%Y-%m-%d'), :onChange=>'fetchHoras();' %>
   </div>
-
-  <div>
+  <br>
+  <div class="form-group">
     <%= form.label :hora, 'Hora: ', style: "float: left" %>
     <%= form.select(:hora, (7..18).to_a.map {|x| [x,x.to_i]}) %> : 
     <%= form.select(:minutos, {00=>00,15=>15,30=>30,45=>45}) %>
   </div>
-
+  <br>
   <div>
-    <%= form.submit %>
+    <%= form.submit 'Solicitar', class:"btn btn-info"%>
   </div>
+  </form>
 <% end %>
 <br>
 
-<div>
-  <%= link_to "Back to turnos", turnos_path %>
-</div>
 
 <script>
 

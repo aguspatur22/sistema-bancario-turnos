@@ -4,8 +4,8 @@
     <h5 class="card-title">Nombre y apellido</h5>
     <p class="card-text">Rol: cliente</p>
     <p class="card-text">Email: <%=current_cliente.email%></p>
-    <p class="card-text">Turnos completados: <%=current_cliente.turnos.where(estado: "pendiente").size%></p>
-    <p class="card-text">Turnos pendientes: <%=current_cliente.turnos.where(estado: "atendidos").size%></p>
+    <p class="card-text">Turnos completados: <%=current_cliente.turnos.where(estado: "atendido").size%></p>
+    <p class="card-text">Turnos pendientes: <%=current_cliente.turnos.where(estado: "pendiente").size%></p>
     <p class="card-text">Creado: <%= current_cliente.created_at.strftime("%d/%m/%Y %H:%Mhs") %></p>
   </div>
 </div>
