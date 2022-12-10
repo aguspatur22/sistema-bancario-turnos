@@ -1,4 +1,5 @@
-<h1>Editing usuario</h1>
+<h1>Editar usuario</h1>
+
 
 <%= form_with(model: @usuario) do |form| %>
   <% if @usuario.errors.any? %>
@@ -6,39 +7,37 @@
       <h2><%= pluralize(@usuario.errors.count, "error") %> prohibited this usuario from being saved:</h2>
       <ul>
         <% @usuario.errors.each do |error| %>
-          <li><%= error.full_message %></li>
+          <div class="alert alert-danger">
+            <li><%= error.full_message %></li>
+          </div>
         <% end %>
       </ul>
     </div>
   <% end %>
 
-  <div>
+  <form>
+  <div class="form-group">
     <%= form.label :email, style: "display: block" %>
     <%= form.text_field :email %>
   </div>
-
-  <div>
+  <br>
+  <div class="form-group w-25">
     <%= form.label :rol, style: "display: block" %>
     <%= form.select(:rol, options_for_select([['Personal Bancario',1],['Administrador',2]], @usuario.roles.first.name == 'admin' ? 2 : 1), {}, {:onChange=>"cambiarVista();"}) %>
   </div>
-
-  <div id="sucursal">
+  <br>
+  <div class="form-group w-25" id="sucursal" >
     <%= form.label :sucursal, style: "display: block" %>
     <%= form.select(:sucursal, options_from_collection_for_select(Sucursal.where(usuario_id: [nil,@usuario.id]), :nombre, :nombre)) %>
   </div>
-
   <br>
-
   <div>
-    <%= form.submit %>
+    <%= form.submit 'Actualizar usuario'%>
   </div>
+  </form>
+
 <% end %>
 <br>
-
-<div>
-  <%= link_to "Show this usuario", @usuario %> |
-  <%= link_to "Back to usuarios", usuarios_path %>
-</div>
 
 <script>
 cambiarVista()

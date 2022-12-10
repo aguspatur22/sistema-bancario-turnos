@@ -1,9 +1,34 @@
-<h1>New cliente</h1>
+<h1>Nuevo cliente</h1>
 
-<%= render "form", cliente: @cliente %>
+<%= form_with(model: @cliente) do |form| %>
+  <% if @cliente.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(@cliente.errors.count, "error") %> prohibited this cliente from being saved:</h2>
 
-<br>
+      <ul>
+        <% @cliente.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
 
-<div>
-  <%= link_to "Back to clientes", clientes_path %>
-</div>
+  <div>
+    <%= form.label :email, style: "display: block" %>
+    <%= form.text_field :email %>
+  </div>
+  <br>
+  <div>
+    <%= form.label :password, style: "display: block" %>
+    <%= form.password_field :password %>
+  </div>
+  <br>
+  <div>
+    <%= form.label :password_confirmation, style: "display: block" %>
+    <%= form.password_field :password_confirmation %>
+  </div>
+  <br>
+  <div>
+    <%= form.submit 'Crear cliente'%>
+  </div>
+<% end %>

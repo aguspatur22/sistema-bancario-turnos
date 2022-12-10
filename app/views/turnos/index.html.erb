@@ -1,27 +1,64 @@
-<p style="color: green"><%= notice %></p>
+<h1>Mis turnos</h1>
 
-<h1>Turnos</h1>
+<style>
+table.table td a.view {
+    color: #03A9F4;
+}
+table.table td a.edit {
+    color: #FFC107;
+}
+table.table td a.delete {
+    color: #E34724;
+}
+</style>
 
-<div id="turnos">
-  <% @turnos.each do |turno| %>
-    <%= render turno %>
-    <% if current_cliente %>
-      <p>
-        <%= link_to "Mostrar detalles del turno", turno %>
-      </p>
-    <% else %>
-      <p>
-        <%= link_to "Mostrar detalles del turno", "/admin/turnos/#{turno.id}" %>
-      </p>
+<% if @turnos.empty? %>
+    <% if current_usuario %>
+      <p>Actualmente la sucursal <%=current_usuario.sucursal.nombre%> no posee turnos pendientes</p>
+    <%else%>
+      <p>Usted no pusee turnos pendientes ni atendidos</p>
+    <%end%>
+<% else %>
+<table class="table table-hover table-bordered">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Sucursal</th>
+      <th scope="col">Estado</th>
+      <th scope="col">Motivo</th>
+      <th scope="col">Fecha</th>
+      <%if current_usuario%>
+        <th scope="col">Solicitante</th>
+      <%end%>
+      <th scope="col">Resultado</th>
+      <th scope="col">Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @turnos.each_with_index do |turno, index| %>
+      <tr>
+        <th scope="row"><%= index + 1 %></th>
+        <td><%= turno.sucursal.nombre %></td>
+        <td><%= turno.estado %></td>
+        <td><%=turno.motivo%></td>
+        <td><%=turno.fecha.strftime("%d/%m/%Y %H:%Mhs")%></td>
+        <%if current_usuario%>
+          <td><%=turno.cliente.email%></td>
+        <%end%>
+        <td><%=turno.resultado%></td>
+        <td>
+          <a href="<%= turno_path(turno) %>" class="view" title="View" data-toggle="tooltip"><i class="material-icons">&#xE417;</i></a>
+          <% if current_cliente and can? :update, Turno and turno.estado == 'pendiente'%>
+            <a href="<%= edit_turno_path(turno) %>" class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
+          <% end %>
+        </td>
+      </tr>
     <% end %>
-    <br>
-  <% end %>
-  </div>
+  </tbody>
+</table>
 
-<% if @turnos.empty? and current_usuario %>
-    <p>Actualmente la sucursal <%=current_usuario.sucursal.nombre%> no posee turnos pendientes</p>
 <% end %>
 
 <% if current_cliente %>
-  <%= link_to "Solicitar turno", new_turno_path %>
+  <%= button_to "Solicitar turno", new_turno_path, method: :get, class: "btn btn-outline-primary" %>
 <% end %>

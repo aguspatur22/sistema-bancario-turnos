@@ -1,38 +1,41 @@
-<p style="color: green"><%= notice %></p>
-
-<div>
-  <p>
-    <strong>Nombre:</strong>
-    <%= @sucursal.nombre %>
-  </p>
-
-  <p>
-    <strong>Direccion:</strong>
-    <%= @sucursal.direccion %>
-  </p>
-
-  <p>
-    <strong>Telefono:</strong>
-    <%= @sucursal.telefono %>
-  </p>
-
-  <% @sucursal.dias.each do |dia| %>
-    <strong><%= dia.dia %></strong>
-    <p>
-      <%=dia.inicio %>
-      <%=dia.fin %>
-    </p>
-  <% end %>
-
+<div class="card w-50">
+  <h5 class="card-header"><%= @sucursal.nombre %></h5>
+  <div class="card-body">
+    <p class="card-text">Direccion: <%= @sucursal.direccion %></p>
+    <p class="card-text">Telefono: <%= @sucursal.telefono %></p>
+    <table class="table caption-top">
+      <caption>Horarios</caption>
+      <thead>
+        <tr>
+          <th scope="col">Dia</th>
+          <th scope="col">Inicio</th>
+          <th scope="col">Fin</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% semana = {1=>'Lunes',2=>'Martes',3=>'Miercoles',4=>'Jueves',5=>'Viernes',6=>'Sabado',7=>'Domingo'}%>
+        <% @sucursal.dias.each do |dia| %>
+          <tr>
+            <th scope="row"><%= semana[dia.dia] %></th>
+            <div>
+              <td>
+                <%=dia.inicio %>
+              </td>
+            </div>
+            <div>
+              <td>
+                <%=dia.fin %>
+              </td>
+            </div>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    <%if current_usuario.has_role? :admin%>
+      <%= button_to "Eliminar sucursal", @sucursal, method: :delete, class:"btn btn-danger" %>
+    <%end%>
+  </div>
 </div>
-
-<div>
-  <% if can? :update, Cliente %>
-    <%= link_to "Edit this sucursal", edit_sucursal_path(@sucursal) %>
-  <% end %>
-  <%= link_to "Back to sucursales", sucursales_path %>
-
-  <% if can? :destroy, Cliente %>
-    <%= button_to "Destroy this sucursal", @sucursal, method: :delete %>
-  <% end %>
-</div>
+<br>
+<br>
+<br>

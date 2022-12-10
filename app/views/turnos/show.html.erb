@@ -1,18 +1,23 @@
-<p style="color: green"><%= notice %></p>
-<p style="color: red"><%= alert %></p>
 
-<%= render @turno %>
-
-<div>
-  <% if current_cliente and can? :update, Turno and @turno.estado == 'pendiente'%>
-    <%= link_to "Editar turno", edit_turno_path(@turno) %> |
-  <% end %>
-  <%= link_to "Back to turnos", turnos_path %>
-  <% if current_cliente and can? :destroy, Turno and @turno.estado == 'pendiente'%>
-    <%= button_to "Cancelar turno", @turno, method: :delete %>
-  <% end %>
-
-  <%  if current_usuario and can? :atender, Turno %>
-    <%= button_to "Atender turno", { action: "atender_turno", id: @turno.id }, method: :get %>
-  <% end %>
+<div class="card w-25">
+  <h5 class="card-header">Turno <%= @turno.id %></h5>
+  <div class="card-body">
+    <h5 class="card-title">Sucursal: <%=@turno.sucursal.nombre%></h5>
+    <p class="card-text">Motivo: <%=@turno.motivo%></p>
+    <p class="card-text">Fecha: <%=@turno.fecha.strftime("%d/%m/%Y %H:%Mhs")%></p>
+    <p class="card-text">Estado: <%=@turno.estado%></p>
+    <% if @turno.estado != "pendiente" %>
+      <p class="card-text">Resultado: <%=@turno.resultado%></p>
+    <%end%>
+    <%if current_usuario%>
+      <p class="card-text">Solicitante: <%=@turno.cliente.email%></p>
+    <%end%>
+    <p class="card-text">Fecha de solicitud: <%=@turno.created_at.strftime("%d/%m/%Y %H:%Mhs")%></p>
+    <% if @turno.estado == "pendiente" and can? :destroy, Turno %>
+      <%= button_to "Eliminar turno", @turno, method: :delete, class:"btn btn-danger" %>
+    <%end%>
+    <%  if current_usuario and can? :atender, Turno %>
+      <%= button_to "Atender turno", { action: "atender_turno", id: @turno.id }, method: :get, class:"btn btn-warning" %>
+    <% end %>
+  </div>
 </div>

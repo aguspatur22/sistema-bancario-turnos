@@ -1,4 +1,5 @@
-<h1>Editing sucursal</h1>
+<h1>Editar sucursal</h1>
+
 
 <%= form_with(model: @sucursal) do |form| %>
   <% if @sucursal.errors.any? %>
@@ -13,53 +14,66 @@
     </div>
   <% end %>
 
-  <div>
+  <form>
+  <div class="form-group">
     <%= form.label :nombre, style: "display: block" %>
     <%= form.text_field :nombre %>
   </div>
-
-  <div>
+  <br>
+  <div class="form-group">
     <%= form.label :direccion, style: "display: block" %>
     <%= form.text_field :direccion %>
   </div>
-
-  <div>
+  <br>
+  <div class="form-group">
     <%= form.label :telefono, style: "display: block" %>
     <%= form.number_field :telefono %>
   </div>
-
   <br>
-
-  <h4>Horarios: </h4>
-  <% ["Lunes","Martes","Miercoles","Jueves","Viernes","Sabado","Domingo"].each_with_index do |x,y| %>
-    <%= form.fields_for (x).to_s do |fd| %>
-    <%= x %>
-      <div>
-        <%= hidden_field_tag y  %>
-      </div>
-      <div>
-        <%= fd.label :ini, 'Inicio: ', style: "float: left" %>
-        <%= fd.select(:ini, (7..18).to_a.map {|x| [x,x.to_i]}, {:selected => @sucursal.dias.find_by(dia: y+1).inicio}, {:onChange=>"finHora('"+x+"')"}) %>
-      </div>
-      <div>
-        <%= fd.label :fin, 'Fin: ', style: "float: left" %>
-        <%= fd.select(:fin, (7..18).to_a.map {|x| [x,x.to_i]}, {:selected => @sucursal.dias.find_by(dia: y+1).fin}, {:onChange=>"finHora('"+x+"')"}) %>
-      </div>
-    <% end %>
-  <% end %>
-
-  <br>
-  
-  <div>
-    <%= form.submit %>
+  <div class="form-group w-25">
+    <table class="table caption-top">
+      <caption>Horarios</caption>
+      <thead>
+        <tr>
+          <th scope="col">Dia</th>
+          <th scope="col">Inicio</th>
+          <th scope="col">Fin</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% ["Lunes","Martes","Miercoles","Jueves","Viernes","Sabado","Domingo"].each_with_index do |x,y| %>
+          <%= form.fields_for (x).to_s do |fd| %>
+          <tr>
+            <th scope="row"><%= x %></th>
+            <div>
+              <%= hidden_field_tag y  %>
+            </div>
+            <div>
+              <td>
+                <%= fd.select(:ini, (7..18).to_a.map {|x| [x,x.to_i]}, {:selected => @sucursal.dias.find_by(dia: y+1).inicio}, {:onChange=>"finHora('"+x+"')"}) %>
+              </td>
+            </div>
+            <div>
+              <td>
+              <%= fd.select(:fin, (7..18).to_a.map {|x| [x,x.to_i]}, {:selected => @sucursal.dias.find_by(dia: y+1).fin}, {:onChange=>"finHora('"+x+"')"}) %>
+              </td>
+            </div>
+          </tr>
+          <% end %>
+        <% end %>
+      </tbody>
+    </table>
   </div>
+  <div>
+    <%= form.submit 'Actualizar sucursal'%>
+  </div>
+  </form>
+  <br>
+  <br>
+
 <% end %>
 <br>
 
-<div>
-  <%= link_to "Show this sucursal", @sucursal %> |
-  <%= link_to "Back to sucursales", sucursales_path %>
-</div>
 
 
 <script>

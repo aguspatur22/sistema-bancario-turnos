@@ -1,9 +1,12 @@
-<p style="color: green"><%= notice %></p>
 
-<%= render @usuario %>
-
-<div>
-  <%= link_to "Edit this usuario", edit_usuario_path(@usuario) %>
-
-  <%= button_to "Destroy this usuario", @usuario, method: :delete %>
+<div class="card w-25">
+  <h5 class="card-header"><%= @usuario.email %></h5>
+  <div class="card-body">
+    <h5 class="card-title">Nombre y apellido</h5>
+    <p class="card-text">Rol: <%=@usuario.roles[0].name%></p>
+    <%if @usuario.has_role? :personal%>
+      <p class="card-text">Sucursal: <%= @usuario.sucursal.nombre %></p>
+    <%end%>
+    <%= button_to "Eliminar usuario", @usuario, method: :delete, class:"btn btn-danger" %>
+  </div>
 </div>

@@ -1,11 +1,22 @@
-<h1>Mi perfil de usuario:</h1>
+<div class="center card w-25">
+  <h5 class="card-header">Datos personales</h5>
+  <div class="card-body">
+    <h5 class="card-title">Nombre y apellido</h5>
+    <p class="card-text">Rol: <%=current_usuario.roles[0].name%></p>
+    <p class="card-text">Email: <%=current_usuario.email%></p>
+    <%if current_usuario.has_role? :personal%>
+      <p class="card-text">Sucursal: <%=current_usuario.sucursal.nombre%></p>
+      <p class="card-text">Turnos atendidos: <%=Turno.where(usuario_id: current_usuario.id).size%></p>
+    <%end%>
+    <p class="card-text">Creacion: <%= current_usuario.created_at.strftime("%d/%m/%Y %H:%Mhs") %></p>
+    <p class="card-text">Actualizacion: <%= current_usuario.updated_at.strftime("%d/%m/%Y %H:%Mhs") %></p>
+  </div>
+</div>
 
-  <p>
-    <strong>Email:</strong>
-    <%= @usuario.email %>
-  </p>
-
-  <p>
-    <strong>Rol:</strong>
-    <%= @usuario.roles[0].name %>
-  </p>
+<style>
+.card {
+        margin: 0 auto; /* Added */
+        float: none; /* Added */
+        margin-bottom: 10px; /* Added */
+}
+</style>

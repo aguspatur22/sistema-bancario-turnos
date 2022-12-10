@@ -56,7 +56,5 @@ class Ability
       can :destroy, Turno, cliente_id: cliente.id, estado: 'pendiente'
     end
 
-    #permisos para ver perfil y cambiar contrasena???
-
   end
 end

@@ -77,7 +77,7 @@ class TurnosController < ApplicationController
 
     respond_to do |format|
       if @turno.update(motivo: data[:motivo], sucursal_id: data[:sucursal_id], fecha: data[:fecha])
-        format.html { redirect_to turno_url(@turno), notice: "Turno was successfully updated." }
+        format.html { redirect_to turno_url(@turno), notice: "Turno actualizado correctamente" }
         format.json { render :show, status: :ok, location: @turno }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -113,7 +113,7 @@ class TurnosController < ApplicationController
     if (@turno.estado == 'pendiente') #no puede eliminar turnos ya atendidos, solo pendientes
       @turno.destroy
       respond_to do |format|
-        format.html { redirect_to turnos_url, notice: "Turno was successfully destroyed." }
+        format.html { redirect_to turnos_url, notice: "Turno eliminado exitosamente." }
         format.json { head :no_content }
       end
     else

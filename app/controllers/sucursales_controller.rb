@@ -47,7 +47,7 @@ class SucursalesController < ApplicationController
 
     respond_to do |format|
       if @sucursal.save
-        format.html { redirect_to sucursal_url(@sucursal), notice: "Sucursal was successfully created." }
+        format.html { redirect_to sucursal_url(@sucursal), notice: "Sucursal eliminada correctamente" }
         format.json { render :show, status: :created, location: @sucursal }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -76,7 +76,7 @@ class SucursalesController < ApplicationController
 
     respond_to do |format|
       if @sucursal.update(nombre: data[:nombre], direccion: data[:direccion], telefono: data[:telefono])
-        format.html { redirect_to sucursal_url(@sucursal), notice: "Sucursal was successfully updated." }
+        format.html { redirect_to sucursal_url(@sucursal), notice: "Sucursal actualizada correctamente" }
         format.json { render :show, status: :ok, location: @sucursal }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -91,7 +91,7 @@ class SucursalesController < ApplicationController
     if Turno.where(sucursal_id: @sucursal.id, estado: "pendiente").empty?
       @sucursal.destroy
       respond_to do |format|
-        format.html { redirect_to sucursales_url, notice: "Sucursal was successfully destroyed." }
+        format.html { redirect_to sucursales_url, notice: "Sucursal eliminada correctamente" }
       end
     else
       respond_to do |format|

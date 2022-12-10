@@ -1,12 +1,79 @@
-<h1>New sucursal</h1>
+<h1>Nueva sucursal</h1>
 
-<%= render "form", sucursal: @sucursal %>
+<%= form_with(model: @sucursal) do |form| %>
+  <% if @sucursal.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(@sucursal.errors.count, "error") %> prohibited this sucursal from being saved:</h2>
 
+      <ul>
+        <% @sucursal.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <form>
+  <div class="form-group">
+    <%= form.label :nombre, style: "display: block" %>
+    <%= form.text_field :nombre %>
+  </div>
+  <br>
+  <div class="form-group">
+    <%= form.label :direccion, style: "display: block" %>
+    <%= form.text_field :direccion %>
+  </div>
+  <br>
+  <div class="form-group">
+    <%= form.label :telefono, style: "display: block" %>
+    <%= form.number_field :telefono %>
+  </div>
+  <br>
+  <div class="form-group w-25">
+    <table class="table caption-top">
+      <caption>Horarios</caption>
+      <thead>
+        <tr>
+          <th scope="col">Dia</th>
+          <th scope="col">Inicio</th>
+          <th scope="col">Fin</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% ["Lunes","Martes","Miercoles","Jueves","Viernes","Sabado","Domingo"].each_with_index do |x,y| %>
+          <%= form.fields_for (x).to_s do |fd| %>
+          <tr>
+            <th scope="row"><%= x %></th>
+            <div>
+              <%= hidden_field_tag y  %>
+            </div>
+            <div>
+              <td>
+                <%= fd.select(:ini, (7..18).to_a.map {|x| [x,x.to_i]}, {}, {:onChange=>"finHora('"+x+"')"}) %>
+              </td>
+            </div>
+            <div>
+              <td>
+                <%= fd.select(:fin, (7..18).to_a.map {|x| [x,x.to_i]}, {:selected => "18"}, {:onChange=>"finHora('"+x+"')"}) %>
+              </td>
+            </div>
+          </tr>
+          <% end %>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+  <div>
+    <%= form.submit 'Crear sucursal'%>
+  </div>
+  </form>
+  <br>
+  <br>
+
+<% end %>
 <br>
 
-<div>
-  <%= link_to "Back to sucursales", sucursales_path %>
-</div>
+
 
 <script>
 

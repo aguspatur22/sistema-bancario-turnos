@@ -1,21 +1,41 @@
-<p style="color: green"><%= notice %></p>
+
+<style>
+table.table td a.view {
+    color: #03A9F4;
+}
+table.table td a.edit {
+    color: #FFC107;
+}
+table.table td a.delete {
+    color: #E34724;
+}
+</style>
 
 <h1>Usuarios</h1>
 
-<table class="table table-hover">
+<table class="table table-hover table-bordered">
   <thead>
     <tr>
       <th scope="col">#</th>
+      <th scope="col">Nombre</th>
+      <th scope="col">Apellido</th>
       <th scope="col">Email</th>
       <th scope="col">Rol</th>
+      <th scope="col">Acciones</th>
     </tr>
   </thead>
   <tbody>
     <% @usuarios.each_with_index do |usuario, index| %>
-      <tr onclick="window.location = '/admin/usuarios/'+<%=usuario.id%>">
+      <tr>
         <th scope="row"><%= index + 1 %></th>
+        <td>Nombre</td>
+        <td>Apellido</td>
         <td><%=usuario.email%></td>
         <td><%=usuario.roles[0].name%></td>
+        <td>
+          <a href="<%= usuario_path(usuario) %>" class="view" title="View" data-toggle="tooltip"><i class="material-icons">&#xE417;</i></a>
+          <a href="<%= edit_usuario_path(usuario) %>" class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
+        </td>
       </tr>
     <% end %>
   </tbody>
