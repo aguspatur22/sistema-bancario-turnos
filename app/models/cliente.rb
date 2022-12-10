@@ -1,8 +1,8 @@
 class Cliente < ApplicationRecord
 
-  validates :email, :password, presence: true
+  validates :email, :nombre, :apellido, :password, presence: true
   validates :email, uniqueness: true
-  validates :email, length: {maximum: 50}
+  validates :email, :nombre, :apellido, length: {maximum: 50}
   validates :password, confirmation: true, length: { in: 6..20 }
   validates :password_confirmation, presence:true
 

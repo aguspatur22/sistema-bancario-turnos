@@ -16,6 +16,16 @@
 
   <form>
   <div class="form-group">
+    <%= form.label :nombre, style: "display: block" %>
+    <%= form.text_field :nombre %>
+  </div>
+  <br>
+    <div class="form-group">
+    <%= form.label :apellido, style: "display: block" %>
+    <%= form.text_field :apellido %>
+  </div>
+  <br>
+    <div class="form-group">
     <%= form.label :email, style: "display: block" %>
     <%= form.text_field :email %>
   </div>

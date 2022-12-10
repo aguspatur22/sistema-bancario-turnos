@@ -41,7 +41,7 @@ class ClientesController < ApplicationController
   def update
     data = cliente_params()
     respond_to do |format|
-      if @cliente.update_attribute(:email, data[:email])
+      if ((@cliente.update_attribute(:nombre, data[:nombre])) and (@cliente.update_attribute(:apellido, data[:apellido])) and (@cliente.update_attribute(:email, data[:email])))
         format.html { redirect_to cliente_url(@cliente), notice: "Cliente actualizado correctamente." }
         format.json { render :show, status: :ok, location: @cliente }
       else
@@ -56,7 +56,7 @@ class ClientesController < ApplicationController
     @cliente.destroy
 
     respond_to do |format|
-      format.html { redirect_to clientes_url, notice: "Clienteeliminado correctamente" }
+      format.html { redirect_to clientes_url, notice: "Cliente eliminado correctamente" }
       format.json { head :no_content }
     end
   end
@@ -69,6 +69,6 @@ class ClientesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def cliente_params
-      params.require(:cliente).permit(:email, :password, :password_confirmation)
+      params.require(:cliente).permit(:nombre, :apellido, :email, :password, :password_confirmation)
     end
 end

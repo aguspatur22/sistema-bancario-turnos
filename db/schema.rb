@@ -12,6 +12,8 @@
 
 ActiveRecord::Schema[7.0].define(version: 2022_11_25_162628) do
   create_table "clientes", force: :cascade do |t|
+    t.string "nombre"
+    t.string "apellido"
     t.string "email", default: "", null: false
     t.string "password"
     t.datetime "created_at", null: false
@@ -49,10 +51,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_25_162628) do
     t.string "nombre"
     t.string "direccion"
     t.integer "telefono"
-    t.integer "usuario_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["usuario_id"], name: "index_sucursales_on_usuario_id"
   end
 
   create_table "turnos", force: :cascade do |t|
@@ -71,8 +71,11 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_25_162628) do
   end
 
   create_table "usuarios", force: :cascade do |t|
+    t.string "nombre"
+    t.string "apellido"
     t.string "email", default: "", null: false
     t.string "password"
+    t.integer "sucursal_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "encrypted_password", default: "", null: false
@@ -81,6 +84,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_25_162628) do
     t.datetime "remember_created_at"
     t.index ["email"], name: "index_usuarios_on_email", unique: true
     t.index ["reset_password_token"], name: "index_usuarios_on_reset_password_token", unique: true
+    t.index ["sucursal_id"], name: "index_usuarios_on_sucursal_id"
   end
 
   create_table "usuarios_roles", id: false, force: :cascade do |t|

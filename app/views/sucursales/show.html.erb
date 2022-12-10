@@ -3,6 +3,7 @@
   <div class="card-body">
     <p class="card-text">Direccion: <%= @sucursal.direccion %></p>
     <p class="card-text">Telefono: <%= @sucursal.telefono %></p>
+    <p class="card-text">Personal asignado: <%= @sucursal.usuarios.size %></p>
     <table class="table caption-top">
       <caption>Horarios</caption>
       <thead>

@@ -17,6 +17,16 @@
 
   <form>
   <div class="form-group">
+    <%= form.label :nombre, style: "display: block" %>
+    <%= form.text_field :nombre %>
+  </div>
+  <br>
+  <div class="form-group">
+    <%= form.label :apellido, style: "display: block" %>
+    <%= form.text_field :apellido %>
+  </div>
+  <br>
+  <div class="form-group">
     <%= form.label :email, style: "display: block" %>
     <%= form.text_field :email %>
   </div>
@@ -28,7 +38,7 @@
   <br>
   <div class="form-group w-25" id="sucursal" >
     <%= form.label :sucursal, style: "display: block" %>
-    <%= form.select(:sucursal, options_from_collection_for_select(Sucursal.where(usuario_id: [nil,@usuario.id]), :nombre, :nombre)) %>
+    <%= form.select(:sucursal, options_from_collection_for_select(Sucursal.all, :nombre, :nombre, @usuario.sucursal ? @usuario.sucursal.nombre : Sucursal.first)) %>
   </div>
   <br>
   <div>

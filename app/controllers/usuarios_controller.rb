@@ -26,14 +26,11 @@ class UsuariosController < ApplicationController
   # POST /usuarios or /usuarios.json
   def create
     data = usuario_params()
-    @usuario = Usuario.new()
-    @usuario.email = data[:email]
-    @usuario.password = data[:password]
-    @usuario.password_confirmation = data[:password_confirmation]
+    @usuario = Usuario.new(nombre: data[:nombre], apellido: data[:apellido], email: data[:email], password: data[:password_confirmation], password_confirmation: data[:password_confirmation])
     if (data[:rol] == '1')
       @usuario.add_role :personal
       suc = Sucursal.find_by(nombre: data[:sucursal])
-      @usuario.sucursal = suc
+      suc.usuarios << @usuario
     else
       @usuario.add_role :admin
     end
@@ -56,7 +53,7 @@ class UsuariosController < ApplicationController
 
     if (data[:rol] == '1')
       if (!@usuario.has_role? :personal) #personal y antes era admin
-        if Sucursal.where(usuario_id: nil).empty? #quiero ser personal pero no hay sucursales
+        if Sucursal.all.empty? #quiero ser personal pero no hay sucursales
           respond_to do |format|
             format.html { redirect_to usuarios_url, alert: "No hay sucursales disponibles para asignar" }
           end
@@ -69,7 +66,7 @@ class UsuariosController < ApplicationController
 
       elsif (@usuario.sucursal.nombre != data[:sucursal]) #personal y antes era personal
         @usuario.sucursal = nil
-        @usuario.sucursal = Sucursal.find_by(nombre: data[:sucursal])
+        Sucursal.find_by(nombre: data[:sucursal]).usuarios << @usuario
       end
 
     else
@@ -79,7 +76,7 @@ class UsuariosController < ApplicationController
     end
 
     respond_to do |format|
-      if @usuario.update_attribute(:email, data[:email])
+      if ((@usuario.update_attribute(:nombre, data[:nombre])) and (@usuario.update_attribute(:apellido, data[:apellido])) and (@usuario.update_attribute(:email, data[:email])))
         if (current_usuario.id == @usuario.id) #para el caso q modifique mi usuario, necesito volver a loguearme
           sign_out current_usuario
           redirect_to destroy_usuario_session_path and return
@@ -95,9 +92,7 @@ class UsuariosController < ApplicationController
 
   # DELETE /usuarios/1 or /usuarios/1.json
   def destroy
-    if @usuario.sucursal
-      @usuario.sucursal.update(usuario_id: nil)
-    end
+
     @usuario.destroy
 
     respond_to do |format|
@@ -114,6 +109,6 @@ class UsuariosController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def usuario_params
-      params.require(:usuario).permit(:email, :password, :password_confirmation, :rol, :sucursal)
+      params.require(:usuario).permit(:nombre, :apellido, :email, :password, :password_confirmation, :rol, :sucursal)
     end
 end

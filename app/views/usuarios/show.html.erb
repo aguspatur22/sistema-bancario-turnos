@@ -2,7 +2,7 @@
 <div class="card w-25">
   <h5 class="card-header"><%= @usuario.email %></h5>
   <div class="card-body">
-    <h5 class="card-title">Nombre y apellido</h5>
+    <h5 class="card-title"><%= @usuario.nombre %> <%= @usuario.apellido %></h5>
     <p class="card-text">Rol: <%=@usuario.roles[0].name%></p>
     <%if @usuario.has_role? :personal%>
       <p class="card-text">Sucursal: <%= @usuario.sucursal.nombre %></p>

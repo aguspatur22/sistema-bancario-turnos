@@ -26,8 +26,8 @@ table.table td a.delete {
     <% @clientes.each_with_index do |cliente, index| %>
       <tr>
         <th scope="row"><%= index + 1 %></th>
-        <td>Nombre</td>
-        <td>Apellido</td>
+        <td><%=cliente.nombre%></td>
+        <td><%=cliente.apellido%></td>
         <td><%=cliente.email%></td>
         <td>
           <a href="<%= cliente_path(cliente) %>" class="view" title="View" data-toggle="tooltip"><i class="material-icons">&#xE417;</i></a>

@@ -2,7 +2,7 @@
 <div class="card w-25">
   <h5 class="card-header"><%= @cliente.email %></h5>
   <div class="card-body">
-    <h5 class="card-title">Nombre y apellido</h5>
+    <h5 class="card-title"><%= @cliente.nombre %> <%= @cliente.apellido %></h5>
     <% if can? :destroy, Cliente %>
       <%= button_to "Eliminar cliente", @cliente, method: :delete, class:"btn btn-danger" %>
     <%end%>
