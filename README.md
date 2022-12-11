@@ -1,5 +1,5 @@
 # TFI Ruby: Sistema turnos bancarios
-## Agustin Paturlanne
+## Agustin Paturlanne 
 
 #### Informacion tecnica de la aplicacion
 - Version de ruby: *3.1.2*
