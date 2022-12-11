@@ -1,9 +1,71 @@
-<h1>Portal de usuarios</h1>
 
-<p>Sistema de turnos bancarios</p>
+  <h1 class="text-white center">Portal de usuarios
+    <small class="text-muted">Bienvenido <%= current_usuario.nombre if usuario_signed_in?%>!</small>
+  </h1>
+  <br>
+    
+<div class="accordion" id="accordionBasic">
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="headingOne">
+      <button class="accordion-button text-white" style="background-color: rgba(0, 0, 0, 0.6);" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+        Servicios brindados
+      </button>
+    </h2>
+    <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionBasic">
+      <div class="accordion-body text-white">
+        <strong>Para su comodidad, </strong>nuestro banco ofrece una variedad de servicios bancarios para cuentas personales y comerciales: banca en línea, banca móvil, pago de facturas en línea, protección contra sobregiros, transferencias electrónicas, transferencias automáticas de saldo, cheques de caja, depósito móvil, estados de cuenta electrónicos, tarjetas de débito y crédito, cajas de seguridad y mucho más.
+      </div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="headingTwo">
+      <button class="accordion-button text-white" style="background-color: rgba(0, 0, 0, 0.6);" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+        Nuestra historia
+      </button>
+    </h2>
+    <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionBasic">
+      <div class="accordion-body text-white">
+        <strong>Fundado en 1891 </strong> por iniciativa del Presidente Carlos Pellegrini, como un medio para resolver los embates de una devastadora crisis económica que afectaba, en especial, al sistema bancario existente en ese momento.
 
-<% if usuario_signed_in? %> 
-  <%= button_to "logout user", destroy_usuario_session_path, method: :delete  %>
-<% else %>
-  <%= button_to "login", new_usuario_session_path, method: :get  %>
-<% end %>
+                            De capital enteramente estatal, en pocos años abarcó en su giro a toda la geografía nacional y se convirtió en el mayor banco comercial argentino.
+
+                            Desde entonces, participó activamente en los principales acontecimientos de la vida económica del país.
+
+                            Tuvo una actitud descollante en la asistencia al sector rural, a tal punto que contribuyó decisivamente a que la República Argentina se convirtiera en una potencia mundial en el segmento de los agronegocios.
+      </div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="headingThree">
+      <button class="accordion-button text-white" style="background-color: rgba(0, 0, 0, 0.6);" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+        Contacto
+      </button>
+    </h2>
+    <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionBasic">
+      <div class="accordion-body text-white">
+        <strong>Centro de Atención al Cliente 0000-0000-0000</strong> El Centro de Atención al Cliente está a tu disposición para brindarte la información que necesites. Podés realizar tus consultas y reclamos de lunes a viernes de 8:00 a 20:00 por el costo de una llamada local, desde cualquier lugar del país.
+      </div>
+    </div>
+  </div>
+</div>
+<br>
+  <% if not usuario_signed_in? %> 
+    <%= button_to "Iniciar sesion", new_usuario_session_path, method: :get, class:"btn btn-secondary"  %>
+  <% end %>
+
+
+<style>
+
+body {
+  background-image: url('https://img.freepik.com/premium-vector/online-banking-technology-concept-illustration-bank-electric-circuit-lines-background_387612-43.jpg?w=2000');
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: 100% 100%;
+}
+
+.accordion-item {
+  border: 2px solid grey; /* accordion border */
+  background-color: rgba(0, 0, 0, 0.6)!important;
+}
+
+</style>

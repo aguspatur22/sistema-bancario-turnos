@@ -1,0 +1,30 @@
+
+<h1>Actualizar contraseña</h1>
+
+<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |form| %>
+  <%= render "devise/shared/error_messages", resource: resource %>
+
+  <form>
+  <br>
+  <div class="form-group">
+    <%= form.label :current_password,'Contraseña actual', style: "display: block" %>
+    <%= form.password_field :current_password %>
+  </div>
+  <br>
+  <div class="form-group">
+    <%= form.label :password,'Contraseña nueva', style: "display: block" %>
+    <%= form.password_field :password %>
+  </div>
+  <br>
+  <div class="form-group">
+    <%= form.label :password_confirmation,'Repita la nueva contraseña', style: "display: block" %>
+    <%= form.password_field :password_confirmation %>
+  </div>
+
+  <br>
+  <div>
+    <%= form.submit 'Actualizar' , class:"btn btn-info"%>
+  </div>
+  </form>
+
+<% end %>

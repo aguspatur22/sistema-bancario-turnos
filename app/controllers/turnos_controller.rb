@@ -46,18 +46,18 @@ class TurnosController < ApplicationController
   def create
 
     data = turno_params()
-
+    puts data
     anio,mes,dia = data[:dia].split("-").map {|x| x.to_i}
     
     fecha = DateTime.new(anio,mes,dia,data[:hora].to_i,data[:minutos].to_i)
-
+    puts fecha
     @turno = Turno.new()
     @turno.estado = "pendiente"
     @turno.motivo = data[:motivo]
     @turno.fecha = fecha
     @turno.sucursal_id = Sucursal.find_by(id: data[:sucursal_id].to_i).id
     @turno.cliente_id = current_cliente.id
-
+    puts @turno.inspect
     respond_to do |format|     #chequeo de segunda condicion para el caso q ya tiene un turno en esa suc ese dia
       if current_cliente.turnos.where(sucursal_id: data[:sucursal_id].to_i).any? {|x| x.fecha.strftime("%Y-%m-%d") == data[:dia]}
         format.html { redirect_to turnos_url, alert: "Usted ya posee un turno ese dia en esa sucursal" }
